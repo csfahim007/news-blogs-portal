@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const settings_controller_1 = require("../controllers/settings.controller");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const router = (0, express_1.Router)();
+router.get('/', settings_controller_1.getSiteSettings);
+router.put('/', auth_middleware_1.authenticate, settings_controller_1.updateSiteSettings);
+router.delete('/breaking-news', auth_middleware_1.authenticate, settings_controller_1.clearBreakingNews);
+exports.default = router;

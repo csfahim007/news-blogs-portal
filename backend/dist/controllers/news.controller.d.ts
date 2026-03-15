@@ -1,0 +1,11 @@
+import { Response } from 'express';
+import { AuthRequest } from '../middleware/auth.middleware';
+export declare const getAllNews: (req: AuthRequest, res: Response) => Promise<void>;
+export declare const getNewsById: (req: AuthRequest, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const getNewsBySlug: (req: AuthRequest, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const createNews: (req: AuthRequest, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const updateNews: (req: AuthRequest, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const deleteNews: (req: AuthRequest, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const trackNewsView: (req: AuthRequest, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const rateNews: (req: AuthRequest, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const toggleFeatured: (req: AuthRequest, res: Response) => Promise<Response<any, Record<string, any>>>;

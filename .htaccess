@@ -1,0 +1,44 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  
+  # Prevent access to sensitive files
+  RewriteRule ^\.env$ - [F,L]
+  RewriteRule ^\.git - [F,L]
+  RewriteRule ^\.gitignore$ - [F,L]
+  RewriteRule ^package-lock\.json$ - [F,L]
+  RewriteRule ^tsconfig\.json$ - [F,L]
+  
+  # Prevent directory listing
+  Options -Indexes
+  
+  # Frontend routing - route all non-existent files to next.js
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !^/api
+  RewriteCond %{REQUEST_URI} !^/backend
+  RewriteRule ^(.*)$ /pinesaas-blogs/public/$1 [L]
+  
+  # Allow access to public folders
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+  
+</IfModule>
+
+# Gzip compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/x-javascript
+</IfModule>
+
+# Browser caching
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType application/x-javascript "access plus 1 month"
+  ExpiresDefault "access plus 2 days"
+</IfModule>

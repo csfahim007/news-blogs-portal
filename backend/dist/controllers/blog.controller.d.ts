@@ -1,0 +1,13 @@
+import { Response } from 'express';
+import { AuthRequest } from '../middleware/auth.middleware';
+export declare const getAllBlogs: (req: AuthRequest, res: Response) => Promise<void>;
+export declare const getBlogById: (req: AuthRequest, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const getBlogBySlug: (req: AuthRequest, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const createBlog: (req: AuthRequest, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const updateBlog: (req: AuthRequest, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const deleteBlog: (req: AuthRequest, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const likeBlog: (req: AuthRequest, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const publishBlog: (req: AuthRequest, res: Response) => Promise<void>;
+export declare const rateBlog: (req: AuthRequest, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const trackBlogView: (req: AuthRequest, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const getBlogStats: (req: AuthRequest, res: Response) => Promise<void>;

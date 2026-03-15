@@ -1,0 +1,30 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /backend/
+  
+  # Prevent access to sensitive files and folders
+  <Files .env>
+    Order allow,deny
+    Deny from all
+  </Files>
+  
+  <Files .env.production>
+    Order allow,deny
+    Deny from all
+  </Files>
+  
+  <FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+  </FilesMatch>
+  
+  # Prevent directory listing
+  Options -Indexes
+  
+  # Block access to source files
+  <FilesMatch "\.(ts|tsx|js\.map|ts\.map)$">
+    Order allow,deny
+    Deny from all
+  </FilesMatch>
+  
+</IfModule>
