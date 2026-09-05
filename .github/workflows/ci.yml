@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Generate Prisma client
+        working-directory: backend
+        run: npx prisma generate --schema ../pinesaas-blogs/prisma/schema.prisma
+
+      - name: Build backend
+        working-directory: backend
+        run: npm run build
+
+      - name: Run backend tests when available
+        working-directory: backend
+        run: npm test --if-present
+
+      - name: Install frontend dependencies
+        working-directory: pinesaas-blogs
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: pinesaas-blogs
+        run: npm run build
+
+      - name: Run frontend lint
+        working-directory: pinesaas-blogs
+        run: npm run lint

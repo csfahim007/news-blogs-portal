@@ -14,7 +14,8 @@ import settingsRoutes from './routes/settings.routes';
 dotenv.config();
 
 const app: Express = express();
-const PORT = process.env.PORT || 5000;
+const PORT = Number(process.env.PORT) || 30001;
+const HOST = process.env.HOST || '127.0.0.1';
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Conditional logging middleware - only in development
@@ -35,13 +36,18 @@ app.use((req, res, next) => {
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
-  res.setHeader('Content-Security-Policy', "default-src 'self'");
+  res.setHeader('Content-Security-Policy', "default-src 'self'; img-src 'self' data: https://images.unsplash.com; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; connect-src 'self' https://images.unsplash.com");
   next();
 });
 
 // Middleware
+const configuredFrontendUrl = process.env.FRONTEND_URL || 'https://itms.cloudafk.xyz';
+const allowedOrigins = NODE_ENV === 'development'
+  ? [configuredFrontendUrl, 'http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174', 'http://127.0.0.1:5173', 'http://127.0.0.1:5174']
+  : [configuredFrontendUrl];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://blog.pinesaas.com',
+  origin: allowedOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -65,6 +71,9 @@ app.use('/api/settings', settingsRoutes);
 app.get('/health', (req: Request, res: Response) => {
   res.json({ status: 'OK', message: 'Server is running' });
 });
+app.get('/api/health', (req: Request, res: Response) => {
+  res.json({ status: 'OK', message: 'Server is running' });
+});
 
 // Error handling middleware
 app.use((err: any, req: Request, res: Response, next: any) => {
@@ -76,8 +85,8 @@ app.use((err: any, req: Request, res: Response, next: any) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`🚀 Server running on http://${HOST}:${PORT}`);
 });
 
 export default app;

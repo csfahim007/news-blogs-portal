@@ -487,7 +487,7 @@ export const trackBlogView = async (req: AuthRequest, res: Response) => {
       });
     }
 
-    res.json({ message: 'View tracked successfully' });
+    res.json({ message: 'View tracked successfully', counted: !existingView });
   } catch (error) {
     console.error('Error tracking blog view:', error);
     res.status(500).json({ error: 'Failed to track view' });

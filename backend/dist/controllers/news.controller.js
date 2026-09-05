@@ -362,8 +362,12 @@ const trackNewsView = async (req, res) => {
                     scrolled: scrolled || false,
                 },
             });
+            await prisma_1.default.news.update({
+                where: { id },
+                data: { views: { increment: 1 } },
+            });
         }
-        res.json({ message: 'View tracked successfully' });
+        res.json({ message: 'View tracked successfully', counted: !existingView });
     }
     catch (error) {
         console.error('Error tracking view:', error);
