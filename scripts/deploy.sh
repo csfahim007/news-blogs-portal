@@ -54,9 +54,9 @@ npm run build
 mkdir -p "$BACKEND_DIR/logs" "$FRONTEND_DIR/logs"
 
 log "Restarting Supervisor-managed services"
-sudo supervisorctl status pinesaas-backend >/dev/null 2>&1 \
+sudo -n supervisorctl status pinesaas-backend >/dev/null 2>&1 \
   || die "Supervisor programs are not configured. Install scripts/supervisor/pinesaas-crm.conf and run supervisorctl reread/update."
-sudo supervisorctl restart pinesaas-backend pinesaas-frontend
+sudo -n supervisorctl restart pinesaas-backend pinesaas-frontend
 
 log "Checking local listeners and health endpoints"
 for attempt in 1 2 3 4 5; do
@@ -70,7 +70,7 @@ done
 
 curl --fail --silent --show-error --max-time 15 "$BACKEND_URL" >/dev/null
 curl --fail --silent --show-error --max-time 15 "$FRONTEND_URL" >/dev/null
-sudo supervisorctl status pinesaas-backend pinesaas-frontend
+sudo -n supervisorctl status pinesaas-backend pinesaas-frontend
 
 log "Deployment complete"
 printf 'Deployed commit: %s\n' "$(git rev-parse --short HEAD)"
