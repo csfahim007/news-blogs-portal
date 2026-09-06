@@ -1,0 +1,5 @@
+import { Plus } from 'lucide-react'
+import type { AdminComment, AdminUser, Story } from '../../types'
+
+type Props = { blogs: Story[]; news: Story[]; users: AdminUser[]; comments: AdminComment[]; onCreateStory: () => void }
+export function AdminOverviewPage({ blogs, news, users, comments, onCreateStory }: Props) { return <div className="admin-overview"><div className="admin-stat"><span>Published stories</span><strong>{blogs.filter((item) => item.published).length}</strong></div><div className="admin-stat"><span>News updates</span><strong>{news.length}</strong></div><div className="admin-stat"><span>Readers</span><strong>{users.filter((user) => user.role === 'user').length}</strong></div><div className="admin-stat"><span>Comments</span><strong>{comments.length}</strong></div><div className="admin-quick"><h3>What needs attention</h3><p>{blogs.filter((item) => !item.published).length} draft stories and {news.filter((item) => !item.published).length} draft news items are waiting in the workspace.</p><button className="admin-primary" onClick={onCreateStory}><Plus size={16} /> Create a story</button></div></div> }

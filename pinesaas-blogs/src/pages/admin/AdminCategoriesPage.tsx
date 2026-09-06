@@ -1,0 +1,6 @@
+import { Plus, Trash2 } from 'lucide-react'
+import type { SyntheticEvent } from 'react'
+import type { Category } from '../../types'
+
+type Props = { categories: Category[]; name: string; description: string; onName: (value: string) => void; onDescription: (value: string) => void; onSubmit: (event: SyntheticEvent<HTMLFormElement>) => void; onRemove: (id: string) => void }
+export function AdminCategoriesPage({ categories, name, description, onName, onDescription, onSubmit, onRemove }: Props) { return <div className="category-manager"><form className="content-form" onSubmit={onSubmit}><div className="form-heading"><div><span>Taxonomy</span><h3>Add a category</h3></div></div><input value={name} onChange={(event) => onName(event.target.value)} placeholder="Category name" required /><input value={description} onChange={(event) => onDescription(event.target.value)} placeholder="Short description" /><button className="admin-primary" type="submit"><Plus size={16} /> Create category</button></form><div className="admin-table">{categories.map((item) => <div className="category-row" key={item.id}><div><strong>{item.name}</strong><small>{item.description || 'No description'}</small></div><button onClick={() => onRemove(item.id)} aria-label={`Delete ${item.name}`}><Trash2 size={15} /></button></div>)}</div></div> }
