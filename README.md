@@ -8,6 +8,11 @@ The platform provides a complete publishing workflow where readers can discover 
 
 ---
 
+# Admin Login: 
+  email: admin@pinesaas.local
+  pass: AdminSeed2026!
+
+
 ## ✨ Overview
 
 This project is designed as a complete digital publishing platform rather than a CRM or business management system.
