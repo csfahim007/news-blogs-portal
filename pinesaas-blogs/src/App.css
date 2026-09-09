@@ -44,6 +44,10 @@
 .story-visual>span { z-index:1; }
 .reader-image { min-height:clamp(220px,42vw,420px); margin:28px 0 30px; }
 .reader-image img { object-position:center; }
+.detail-page { margin:0 auto; }
+.detail-page h1 { max-width:780px; margin:22px 0; color:var(--ink); font-family:'Libre Baskerville',serif; font-size:clamp(38px,6vw,76px); font-weight:400; letter-spacing:-.07em; line-height:1.08; }
+.back-link { display:inline-flex; align-items:center; gap:7px; margin-bottom:70px; color:var(--muted); font-size:12px; text-decoration:none; }
+.back-link:hover { color:var(--ink); }
 .auth-form .outline-button, .comment-form .outline-button, .about-cta .outline-button { display:inline-flex; }
 @media (max-width:700px) { .admin-panel{padding:24px 18px 45px}.admin-header h2{font-size:38px}.admin-tab{font-size:14px}.footer{display:flex;flex-direction:column;gap:38px;padding:50px 0 55px}.footer:after{margin-top:10px}.story-stats{font-size:11px} }
 @media (max-width:700px) { .about-page{padding:50px 0 70px}.about-hero{display:block;padding-bottom:50px}.about-hero h1{font-size:clamp(45px,14vw,70px)}.about-lede{margin-top:34px;font-size:15px}.about-hero-meta{margin-top:36px;padding-top:0;font-size:9px}.about-hero-visual{margin-top:42px}.about-visual-image{min-height:280px}.about-grid{grid-template-columns:1fr;gap:38px;padding:45px 0 62px}.about-grid h2{font-size:22px}.about-cta{align-items:flex-start;flex-direction:column}.about-cta .outline-button{width:100%;justify-content:center} }

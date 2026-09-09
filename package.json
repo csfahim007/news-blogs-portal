@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "seed": "npm --prefix backend run seed"
+  },
   "devDependencies": {
     "prisma": "^5.22.0"
   },

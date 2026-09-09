@@ -8,11 +8,13 @@ import { AboutPage } from './pages/AboutPage'
 import { StoriesPage } from './pages/StoriesPage'
 import { BlogsPage } from './pages/BlogsPage'
 import { NewsPage } from './pages/NewsPage'
+import { BlogDetailPage } from './pages/BlogDetailPage'
 import { useAuthActions } from './hooks/useAuthActions'
 import type { Section, Story, Surface } from './types'
 import './App.css'
 
 function App() {
+  const blogSlug = window.location.pathname.match(/^\/blog\/([^/]+)\/?$/)?.[1]
   const [section, setSection] = useState<Section>('blogs')
   const [surface, setSurface] = useState<Surface>('stories')
   const [selected, setSelected] = useState<Story | null>(null)
@@ -46,12 +48,16 @@ function App() {
   }
 
   const openStory = (story: Story) => {
+    if (section === 'blogs' && story.slug) {
+      window.open(`/blog/${story.slug}`, '_blank', 'noopener,noreferrer')
+      return
+    }
     setSelected(story)
     window.history.pushState({ reader: true }, '', `?${section}=${story.slug || story.id}`)
   }
 
   const userPage = surface === 'stories' ? <StoriesPage reloadKey={reloadKey} onStory={openStory} /> : surface === 'blogs' ? <BlogsPage reloadKey={reloadKey} onStory={openStory} /> : <NewsPage reloadKey={reloadKey} onStory={openStory} />
-  return <div className="site-shell"><Navbar surface={surface} menuOpen={menuOpen} authToken={auth.token} authName={auth.name} authRole={auth.role} onMenu={() => setMenuOpen(!menuOpen)} onNavigate={navigate} onAccount={auth.accountAction} /><main>{surface === 'about' ? <AboutPage onReadStories={() => navigate('stories')} /> : userPage}</main><Footer />{selected && <ReaderModal story={selected} section={section} authToken={auth.token} authName={auth.name} onClose={() => setSelected(null)} onOpenAuth={auth.openAuth} />}{auth.authOpen && <AuthModal mode={auth.authMode} email={auth.authEmail} password={auth.authPassword} registerName={auth.registerName} error={auth.authError} onMode={auth.setAuthMode} onEmail={auth.setAuthEmail} onPassword={auth.setAuthPassword} onRegisterName={auth.setRegisterName} onSubmit={auth.authMode === 'login' ? auth.login : auth.register} onClose={auth.closeAuth} />}{adminOpen && <AdminPanel token={auth.token} onClose={() => setAdminOpen(false)} />}</div>
+  return <div className="site-shell"><Navbar surface={surface} menuOpen={menuOpen} authToken={auth.token} authName={auth.name} authRole={auth.role} onMenu={() => setMenuOpen(!menuOpen)} onNavigate={navigate} onAccount={auth.accountAction} /><main>{blogSlug ? <BlogDetailPage slug={decodeURIComponent(blogSlug)} authToken={auth.token} authName={auth.name} onOpenAuth={auth.openAuth} /> : surface === 'about' ? <AboutPage onReadStories={() => navigate('stories')} /> : userPage}</main><Footer />{selected && <ReaderModal story={selected} section={section} authToken={auth.token} authName={auth.name} onClose={() => setSelected(null)} onOpenAuth={auth.openAuth} />}{auth.authOpen && <AuthModal mode={auth.authMode} email={auth.authEmail} password={auth.authPassword} registerName={auth.registerName} error={auth.authError} onMode={auth.setAuthMode} onEmail={auth.setAuthEmail} onPassword={auth.setAuthPassword} onRegisterName={auth.setRegisterName} onSubmit={auth.authMode === 'login' ? auth.login : auth.register} onClose={auth.closeAuth} />}{adminOpen && <AdminPanel token={auth.token} onClose={() => setAdminOpen(false)} />}</div>
 }
 
 export default App
